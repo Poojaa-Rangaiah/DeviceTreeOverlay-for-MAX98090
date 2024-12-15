@@ -1,8 +1,8 @@
 # MAX98090-Audio-Codec
 The device tree overlay for the MAX98090 audio codec is avaliable for RPi4 model B Rev 1.5, armv7l (32-bit) architecture.
 
-To edit this DTS file,
- `$sudo nano max98090.dts`
+To edit this DTS file,<br>
+ `$sudo nano max98090.dts`<br>
 To compile it to .dtbo file,
  `$dtc -@ -I dts -O dtb -o max98090.dtbo max98090.dts`
 To copy it to the overlays directory,

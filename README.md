@@ -3,7 +3,7 @@
 **Note**: The driver files for this codec is obtained from [this](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/sound/soc/codecs/max98090.c) repository.
 
 To edit this DTS file,<br>
- `$sudo nano max98090.dts`<br>
+ ```$sudo nano max98090.dts```<br>
  
 To compile it to .dtbo file,<br>
  `$dtc -@ -I dts -O dtb -o max98090.dtbo max98090.dts`<br>

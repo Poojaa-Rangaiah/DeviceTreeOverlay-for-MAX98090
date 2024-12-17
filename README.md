@@ -23,8 +23,8 @@ Then reboot your RPi with the following command,<br>
 
 ## Steps to re-configure the kernel for module generation
 For the driver module of the max98090, you should have reconfigured the kernel image. The following steps are mentioned for the [cross-compilation](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#cross-compile-the-kernel),<br>
-**"clone git [repo](git clone https://github.com/raspberrypi/linux)"**<br>
 ```
+$ git clone https://github.com/raspberrypi/linux
 $ cd linux/
 $ sudo apt install bc bison flex libssl-dev make libc6-dev libncurses5-dev
 $ sudo apt install crossbuild-essential-armhf
@@ -47,7 +47,7 @@ $ sudo cp arch/arm/boot/dts/overlays/README mnt/boot/overlays/
 $ sudo umount mnt/boot
 $ sudo umount mnt/root
 ```
-**TIP**: I faced an issue with the header of the `ls -l /usr/lib/modules/build` build directory was pointing to the host system (used for cross compilation) instead of pointing to the source directory (linux-header) from `/usr/src/` so I copied the cloned directory (after reconfiguration) to /usr/src/ which helped me resolve the issue.<br>
+**TIP**: I faced an issue with the header of the `ls -l /usr/lib/modules/build` build directory was pointing to the host system (used for cross compilation) instead of pointing to the source directory (linux-header) from `/usr/src/` so I copied the cloned directory (after reconfiguration) to `/usr/src/` which helped me resolve the issue.<br>
 
 Then in your /boot/firmware/config.txt, add<br>
 `kernel=kernel7l.img`<br>

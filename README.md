@@ -38,7 +38,7 @@ $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules
 Then, [find your boot media](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#find-your-boot-media).<br>
 Once all these are done, you must include the modules in your root media.<br>
 ```
-$ sudo env PATH=$PATH make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- INSTALL_MOD_PATH=mnt/root modules_install   #(sudo env PATH=$PATH make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- INSTALL_MOD_PATH=media/poojaa/rootfs modules_install) [run on host sys]
+$ sudo env PATH=$PATH make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- INSTALL_MOD_PATH=mnt/root modules_install [run on host sys]
 $ sudo cp mnt/boot/$KERNEL.img mnt/boot/$KERNEL-backup.img 
 $ cp arch/arm/boot/zImage /boot/kernel7l.img    (sudo cp /home/poojaa/rpi-kernel2/linux/arch/arm/boot/zImage /media/poojaa/bootfs/$KERNEL.img)
 $ sudo cp arch/arm/boot/dts/broadcom/*.dtb mnt/boot/

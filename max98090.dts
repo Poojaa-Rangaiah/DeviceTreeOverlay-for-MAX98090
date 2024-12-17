@@ -38,7 +38,7 @@
             clk_oscillator: oscillator {
                 compatible = "fixed-clock";
                 #clock-cells = <0>;
-                clock-frequency = <12288000>;  /* Frequency of the external oscillator (mclk = 12.288 MHz) but can be 11.2896 MHz/12 MHz/13 MHz/26 MHz/19.2 MHz. */
+                clock-frequency = <12288000>;  /* Frequency of the external oscillator (mclk = 12.288 MHz) but can also be 11.2896 MHz/12 MHz/13 MHz/26 MHz/19.2 MHz. */
                 clock-output-names = "mclk";
             };
         };
@@ -66,10 +66,11 @@
                 "Line Out", "RCVL",
                 "Line Out", "RCVR", 
                 /* Uncomment any of these below lines if the Line Input(s) is(are) used else leave it as such. */
-                //"IN5", "Line In",  /* IN1/IN2/IN3/IN4/IN6 (For single ended input) */
+                //"IN5", "Line In",  /* IN1/IN2/IN3/IN4/IN6 (For single-ended input) */
                 //"IN56", "Line In", /* IN34 (For differential inputs) */
                 "MIC1", "Mic Jack",
                 "MIC2", "Mic Jack",
+                "Mic Jack", "MICBIAS",
                 "Speaker", "SPKL",
                 "Speaker", "SPKR";
 
@@ -90,4 +91,3 @@
         card-name = <&sound_overlay>, "simple-audio-card,name";
     };
 };
-

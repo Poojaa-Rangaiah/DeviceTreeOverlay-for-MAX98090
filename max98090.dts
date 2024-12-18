@@ -1,11 +1,14 @@
-
-/* Device Tree Overlay for MAX98090, MAX98091 Audio Codec. */
+/*
+ * Device Tree Overlay for MAX98090, MAX98091 Audio Codec.
+ * https://github.com/Poojaa-Rangaiah/DeviceTreeOverlay-for-MAX98090 => for more details.
+ * MAX98090 audio codec as master and Raspberry Pi as slave.
+ */
 
 /dts-v1/;
 /plugin/;
 
 / {
-    compatible = "brcm,bcm2835";
+    compatible = "brcm,bcm2835","brcm,bcm2711";
 
     fragment@0 {
         target = <&i2s_clk_consumer>;
@@ -25,8 +28,8 @@
                 compatible = "maxim,max98090","maxim,max98091";
                 reg = <0x10>;
                 interrupt-parent = <&gpio>;
-                interrupts = <27 2>;	// Edge falling interrupt (2) in GPIO 27
-                maxim,micbias = <3>;
+                interrupts = <27 2>;	/* GPIO 27 as Edge_Falling_IRQ (2) */
+                maxim,micbias = <3>;    /* MICBIAS = 2.8V */
                 status = "okay";
             };
         };

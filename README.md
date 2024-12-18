@@ -1,25 +1,26 @@
-## The device tree overlay for the MAX98090 audio codec is avaliable for RPi4 model B Rev 1.5, armv7l (32-bit) architecture.
+## The device tree overlay for the MAX98090 audio codec.
+- Raspberry Pi 4 Model B Rev 1.5, armv7l architecture.<br>
 **Note**: 
 * The driver files for this codec are obtained from [this](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/sound/soc/codecs/max98090.c) repository.
 * Before adding the DTS file, make sure that the module for the drivers to your device (audio codec) is available, else first complete [these steps](#Steps-to-re-configure-the-kernel-for-module-generation)
 
 To edit this DTS file,<br>
- `$ sudo nano max98090.dts`<br>
+ ```$ sudo nano max98090.dts```<br>
  
 To compile it to .dtbo file,<br>
- `$ dtc -@ -I dts -O dtb -o max98090.dtbo max98090.dts`<br>
+ ```$ dtc -@ -I dts -O dtb -o max98090.dtbo max98090.dts```<br>
  
 To copy it to the overlays directory,<br>
- `$ sudo cp max98090.dtbo /boot/firmware/overlays/`<br>
+ ```$ sudo cp max98090.dtbo /boot/firmware/overlays/```<br>
  
 Ensure to add it in config.txt file,<br>
- `$ sudo nano /boot/firmware/config.txt`<br>
+ ```$ sudo nano /boot/firmware/config.txt```<br>
  
 Then add,<br>
- `dtoverlay = max98090` before that make sure if `dtparam=i2s=on` is uncommented in config.txt, otherwise the external I2S interface in RPi'S GPIO will be disabled.<br>
+ ```dtoverlay = max98090``` before that make sure if ```dtparam=i2s=on``` is uncommented in config.txt, otherwise the external I2S interface in RPi'S GPIO will be disabled.<br>
  
 Then reboot your RPi with the following command,<br>
- `$ sudo reboot`<be>
+ ```$ sudo reboot```<br>
 
 ## Steps to re-configure the kernel for module generation
 For the driver module of the max98090, you should have reconfigured the kernel image. The following steps are mentioned for the [cross-compilation](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#cross-compile-the-kernel),<br>
@@ -47,11 +48,12 @@ $ sudo cp arch/arm/boot/dts/overlays/README mnt/boot/overlays/
 $ sudo umount mnt/boot
 $ sudo umount mnt/root
 ```
-**TIP**: I faced an issue with the header of the `ls -l /usr/lib/modules/build` build directory was pointing to the host system (used for cross compilation) instead of pointing to the source directory (linux-header) from `/usr/src/` so I copied the cloned directory (after reconfiguration) to `/usr/src/` which helped me resolve the issue.<br>
+**TIP**: 
+I faced an issue with the header of the `ls -l /usr/lib/modules/build` build directory was pointing to the host system (used for cross compilation) instead of pointing to the source directory (linux-header) from `/usr/src/` so I copied the cloned directory (after reconfiguration) to `/usr/src/` which helped me resolve the issue.<br>
 
 Then in your /boot/firmware/config.txt, add<br>
-`kernel=kernel7l.img`<br>
+```kernel=kernel7l.img```<br>
 Also, if the architecture of your OS is armv7l but it shows aarch64 when `uname -a`, then add this in config.txt<br>
-`arm_64bit=0`<br>
+```arm_64bit=0```<br>
 but if it is the countercase, then add<br>
-`arm_64bit=1`<br>
+```arm_64bit=1```<br>

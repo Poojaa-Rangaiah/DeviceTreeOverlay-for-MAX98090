@@ -3,7 +3,7 @@
 
 **Note**: 
 * The driver files for this codec are obtained from [this](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/sound/soc/codecs/max98090.c) repository.
-* Before adding the DTS file, make sure that the module for the drivers to your device (audio codec) is available, else first complete [these steps](#Steps-to-re-configure-the-kernel-for-module-generation)
+* Before adding the DTS file, make sure that the module for the drivers to your device (audio codec) is available, else first complete [these steps](#Steps-to-re-configure-the-kernel-for-module-generation).
 
 To edit this DTS file,<br>
  ```$ sudo nano max98090.dts```<br>

@@ -1,7 +1,7 @@
 /*
  * Device Tree Overlay for MAX98090, MAX98091 Audio Codec.
  * https://github.com/Poojaa-Rangaiah/DeviceTreeOverlay-for-MAX98090 => for more details.
- * MAX98090 audio codec as master and Raspberry Pi as slave.
+ * MAX98090 audio codec is used as master and Raspberry Pi is used as slave.
  */
 
 /dts-v1/;
@@ -30,6 +30,7 @@
                 interrupt-parent = <&gpio>;
                 interrupts = <27 2>;	/* GPIO 27 as Edge_Falling_IRQ (2) */
                 maxim,micbias = <3>;    /* MICBIAS = 2.8V */
+                //maxim,dmic-freq = <2500000>;    /* Uncomment for clock frequency of digital mic */
                 status = "okay";
             };
         };
@@ -38,7 +39,7 @@
     fragment@2 {
         target-path = "/";
         __overlay__ {
-            clk_oscillator: oscillator {
+            master_clock: oscillator {
                 compatible = "fixed-clock";
                 #clock-cells = <0>;
                 clock-frequency = <12288000>;  /* Frequency of the external oscillator (mclk = 12.288 MHz) but can also be 11.2896 MHz/12 MHz/13 MHz/26 MHz/19.2 MHz. */
@@ -85,7 +86,7 @@
 
             dailink0_master: simple-audio-card,codec {
                 sound-dai = <&max98090_codec>;
-                clocks = <&clk_oscillator>;
+                clocks = <&master_clock>;
             };
         };
     };

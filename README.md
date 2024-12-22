@@ -3,6 +3,7 @@
 
 **Note**: 
 * The driver files for this codec are obtained from [this](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/sound/soc/codecs/max98090.c) repository.
+* The device-tree binding is referred from [max98090](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/Documentation/devicetree/bindings/sound/maxim%2Cmax98090.yaml).
 * Before adding the DTS file, make sure that the module for the drivers to your device (audio codec) is available, else first complete [these steps](#Steps-to-re-configure-the-kernel-for-module-generation).
 
 To edit this DTS file,<br>
@@ -21,9 +22,10 @@ Then add,<br>
  ```dtoverlay = max98090``` before that make sure if ```dtparam=i2s=on``` is uncommented in config.txt, otherwise the external I2S interface in RPi'S GPIO will be disabled.<br>
  
 Then reboot your RPi with the following command,<br>
- ```$ sudo reboot```<br>
+ ```$ sudo reboot```
 
-## Steps to re-configure the kernel for module generation
+
+## Steps to re-configure the kernel for module generation.
 For the driver module of the max98090, you should have reconfigured the kernel image. The following steps are mentioned for the [cross-compilation](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#cross-compile-the-kernel),<br>
 ```
 $ git clone https://github.com/raspberrypi/linux
@@ -58,3 +60,53 @@ Also, if the architecture of your OS is armv7l but it shows aarch64 when `uname 
 ```arm_64bit=0```<br>
 but if it is the countercase, then add<br>
 ```arm_64bit=1```<br>
+
+
+## Verification commands.
+To check if the driver and overlay is loaded.
+```
+$ sudo vclog -m | grep max98090 (or) sudo vcdbg log msg | grep max98090
+$ dmesg | grep -i max98090
+$ lsmod | grep max98090
+```
+To check the sound card created for playback and capture.
+```
+$ aplay -l
+$ arecord -l
+```
+> Example:
+> ```
+> pi@raspberrypi:~ $ aplay -l
+> **** List of PLAYBACK Hardware Devices ****
+> card 0: Headphones [bcm2835 Headphones], device 0: bcm2835 Headphones [bcm2835 Headphones]
+>   Subdevices: 8/8
+>   Subdevice #0: subdevice #0
+>   Subdevice #1: subdevice #1
+>   Subdevice #2: subdevice #2
+>   Subdevice #3: subdevice #3
+>   Subdevice #4: subdevice #4
+>   Subdevice #5: subdevice #5
+>   Subdevice #6: subdevice #6
+>   Subdevice #7: subdevice #7
+> card 1: MAX98090AudioCo [MAX98090-Audio-Codec], device 0: fe203000.i2s-HiFi HiFi-0 [fe203000.i2s-HiFi HiFi-0]
+>   Subdevices: 1/1
+>   Subdevice #0: subdevice #0
+> card 2: vc4hdmi0 [vc4-hdmi-0], device 0: MAI PCM i2s-hifi-0 [MAI PCM i2s-hifi-0]
+>   Subdevices: 1/1
+>   Subdevice #0: subdevice #0
+> card 3: vc4hdmi1 [vc4-hdmi-1], device 0: MAI PCM i2s-hifi-0 [MAI PCM i2s-hifi-0]
+>   Subdevices: 1/1
+>   Subdevice #0: subdevice #0
+> pi@raspberrypi:~ $ arecord -l
+> **** List of CAPTURE Hardware Devices ****
+> card 1: MAX98090AudioCo [MAX98090-Audio-Codec], device 0: fe203000.i2s-HiFi HiFi-0 [fe203000.i2s-HiFi HiFi-0]
+>   Subdevices: 1/1
+>   Subdevice #0: subdevice #0
+> ```
+Other commands for more details,
+```
+$ cat /proc/interrupts
+$ sudo cat /sys/kernel/debug/clk/clk_summary
+$ cat /proc/asound/modules
+$ cat /proc/asound/cards
+```

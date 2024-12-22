@@ -113,11 +113,11 @@ $ cat /proc/asound/cards
 
 ## Configuration and testing.
 Once the soundcard is created, configure the codec settings as desired using alsamixer settings.
-```$ alsamixer -c 1 #card 1 from example ```
-To test capture,
-```$ arecord -D hw:1,0 -f cd test_capture.wav #card 1 from example```
-To test playback,
-```$ aplay test_capture.wav```
+```$ alsamixer -c 1``` #card 1 from example<br>
+To test capture,<br>
+```$ arecord -D hw:1,0 -f cd test_capture.wav``` #card 1 from example<br>
+To test playback,<br>
+```$ aplay test_capture.wav```<br>
 
-If your captured file is silent, try recording with this command to determine whether there are any issues with the hardware.
-```$ arecord -vv -D hw:1,0 -f cd -d 10 test.wav #card 1 from example```
+If your captured file is silent, try recording with this command to determine whether there are any issues with the hardware.<br>
+```$ arecord -vv -D hw:1,0 -f cd -d 10 test.wav``` #card 1 from example<br>

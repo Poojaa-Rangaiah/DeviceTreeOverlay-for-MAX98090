@@ -111,11 +111,14 @@ $ cat /proc/asound/modules
 $ cat /proc/asound/cards
 ```
 
+
 ## Configuration and testing.
-Once the soundcard is created, configure the codec settings as desired using alsamixer settings.
-```$ alsamixer -c 1``` #card 1 from example<br>
+Once the soundcard is created, configure the codec settings as desired using alsamixer settings.<br>
+```$ alsamixer -c 1``` #card 1 from example<be>
+
 To test capture,<br>
-```$ arecord -D hw:1,0 -f cd test_capture.wav``` #card 1 from example<br>
+```$ arecord -D hw:1,0 -f cd test_capture.wav``` #card 1 from example<be>
+
 To test playback,<br>
 ```$ aplay test_capture.wav```<br>
 

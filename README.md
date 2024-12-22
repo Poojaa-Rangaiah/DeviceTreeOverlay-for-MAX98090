@@ -69,7 +69,7 @@ $ sudo vclog -m | grep max98090 (or) sudo vcdbg log msg | grep max98090
 $ dmesg | grep -i max98090
 $ lsmod | grep max98090
 ```
-To check the sound card created for playback and capture.
+To check the soundcard created for playback and capture.
 ```
 $ aplay -l
 $ arecord -l
@@ -88,7 +88,7 @@ $ arecord -l
 >   Subdevice #5: subdevice #5
 >   Subdevice #6: subdevice #6
 >   Subdevice #7: subdevice #7
-> card 1: MAX98090AudioCo [MAX98090-Audio-Codec], device 0: fe203000.i2s-HiFi HiFi-0 [fe203000.i2s-HiFi HiFi-0]
+> card 1: MAX98090Codec [MAX98090-Codec], device 0: fe203000.i2s-HiFi HiFi-0 [fe203000.i2s-HiFi HiFi-0]
 >   Subdevices: 1/1
 >   Subdevice #0: subdevice #0
 > card 2: vc4hdmi0 [vc4-hdmi-0], device 0: MAI PCM i2s-hifi-0 [MAI PCM i2s-hifi-0]
@@ -99,7 +99,7 @@ $ arecord -l
 >   Subdevice #0: subdevice #0
 > pi@raspberrypi:~ $ arecord -l
 > **** List of CAPTURE Hardware Devices ****
-> card 1: MAX98090AudioCo [MAX98090-Audio-Codec], device 0: fe203000.i2s-HiFi HiFi-0 [fe203000.i2s-HiFi HiFi-0]
+> card 1: MAX98090Codec [MAX98090-Codec], device 0: fe203000.i2s-HiFi HiFi-0 [fe203000.i2s-HiFi HiFi-0]
 >   Subdevices: 1/1
 >   Subdevice #0: subdevice #0
 > ```
@@ -110,3 +110,14 @@ $ sudo cat /sys/kernel/debug/clk/clk_summary
 $ cat /proc/asound/modules
 $ cat /proc/asound/cards
 ```
+
+## Configuration and testing.
+Once the soundcard is created, configure the codec settings as desired using alsamixer settings.
+```$ alsamixer -c 1 #card 1 from example ```
+To test capture,
+```$ arecord -D hw:1,0 -f cd test_capture.wav #card 1 from example```
+To test playback,
+```$ aplay test_capture.wav```
+
+If your captured file is silent, try recording with this command to determine whether there are any issues with the hardware.
+```$ arecord -vv -D hw:1,0 -f cd -d 10 test.wav #card 1 from example```

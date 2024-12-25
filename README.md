@@ -35,6 +35,14 @@ $ sudo apt install crossbuild-essential-armhf
 $ export KERNEL=kernel7l
 $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2711_defconfig #(2711 for RPi4)
 $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
+```
+Make the following module configurations in [menuconfig](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#menuconfig),<br>
+-> Device Drivers<br>
+  -> Sound card support (SOUND)<br>
+    -> Advanced Linux Sound Architecture (ALSA)<br>
+      -> ALSA for SoC audio support<br>
+        -> CODEC drivers<br>
+```
 $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage
 $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- dtbs
 $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules

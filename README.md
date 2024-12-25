@@ -37,12 +37,12 @@ $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2711_defconfig #(2711 for 
 $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
 ```
 Make the following module configurations in [menuconfig](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#menuconfig),<br>
-> |-> Device Drivers<br>
-> |---> Sound card support<br>
-> |-----> Advanced Linux Sound Architecture<br>
-> |-------> ALSA for SoC audio support<br>
-> |---------> CODEC drivers<br>
-> |-----------> Maxim MAX98090 CODEC
+ |-> Device Drivers<br>
+ |---> Sound card support<br>
+ |-----> Advanced Linux Sound Architecture<br>
+ |-------> ALSA for SoC audio support<br>
+ |---------> CODEC drivers<br>
+ |-----------> Maxim MAX98090 CODEC
 ```
 $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage
 $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- dtbs
@@ -60,8 +60,11 @@ $ sudo cp arch/arm/boot/dts/overlays/README mnt/boot/overlays/
 $ sudo umount mnt/boot
 $ sudo umount mnt/root
 ```
-**TIP**: 
-- I faced an issue with the header of the `ls -l /usr/lib/modules/build` build directory was pointing to the host system (used for cross compilation) instead of pointing to the source directory (linux-header) from `/usr/src/` so I copied the cloned directory (after reconfiguration) to `/usr/src/` which helped me resolve the issue.<br>
+In **RPi**,<br>
+For installing the linux headers,<br>
+```$ sudo apt install linux-headers-rpi-{v6,v7,v7l}```<br>
+
+**Note**: This avoids the issue with the header of the build directory `ls -l /usr/lib/modules/build` pointing to the host system (used for cross compilation) instead of pointing to the source directory (linux-header) from `/usr/src/`. Thus kernel can point to the right kernel source version.
 
 Then in your /boot/firmware/config.txt, add<br>
 ```kernel=kernel7l.img```<br>

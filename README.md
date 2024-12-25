@@ -37,11 +37,12 @@ $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2711_defconfig #(2711 for 
 $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
 ```
 Make the following module configurations in [menuconfig](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#menuconfig),<br>
--> Device Drivers<br>
-  -> Sound card support (SOUND)<br>
-    -> Advanced Linux Sound Architecture (ALSA)<br>
-      -> ALSA for SoC audio support<br>
-        -> CODEC drivers<br>
+> |-> Device Drivers<br>
+> |---> Sound card support<br>
+> |-----> Advanced Linux Sound Architecture<br>
+> |-------> ALSA for SoC audio support<br>
+> |---------> CODEC drivers<br>
+> |-----------> Maxim MAX98090 CODEC
 ```
 $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage
 $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- dtbs

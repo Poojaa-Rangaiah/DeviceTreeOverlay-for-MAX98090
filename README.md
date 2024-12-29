@@ -4,7 +4,7 @@
 **Note**: 
 * The driver files for this codec are obtained from [this](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/sound/soc/codecs/max98090.c) repository.
 * The device-tree binding is referred from [max98090](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/Documentation/devicetree/bindings/sound/maxim%2Cmax98090.yaml).
-* Before adding the DTS file, make sure that the module for the drivers to your device (audio codec) is available, else first complete [these steps](#Steps-to-re-configure-the-kernel-for-module-generation).
+* Before adding the DTS file, make sure that the module for the drivers to your device (audio codec) is available ([steps to check](#Verification-commands)), else first complete [these steps](#Steps-to-re-configure-the-kernel-for-module-generation).
 
 To edit this DTS file,<br>
  ```$ sudo nano max98090.dts```<br>
@@ -25,8 +25,8 @@ Then reboot your RPi with the following command,<br>
  ```$ sudo reboot```
 
 **For more info about devicetree:**
-- (https://elinux.org/Device_Tree_Reference)
-- (https://elinux.org/images/c/cf/Power_ePAPR_APPROVED_v1.1.pdf)
+- https://elinux.org/Device_Tree_Reference
+- https://elinux.org/images/c/cf/Power_ePAPR_APPROVED_v1.1.pdf
 
 ## Steps to re-configure the kernel for module generation.
 For the driver module of the max98090, you should have reconfigured the kernel image. The following steps are mentioned for the [cross-compilation](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#cross-compile-the-kernel),<br>

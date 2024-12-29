@@ -24,6 +24,9 @@ Then add,<br>
 Then reboot your RPi with the following command,<br>
  ```$ sudo reboot```
 
+**For more info about devicetree:**
+- (https://elinux.org/Device_Tree_Reference)
+- (https://elinux.org/images/c/cf/Power_ePAPR_APPROVED_v1.1.pdf)
 
 ## Steps to re-configure the kernel for module generation.
 For the driver module of the max98090, you should have reconfigured the kernel image. The following steps are mentioned for the [cross-compilation](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#cross-compile-the-kernel),<br>
@@ -61,10 +64,12 @@ $ sudo umount mnt/boot
 $ sudo umount mnt/root
 ```
 In **RPi**,<br>
-For installing the [linux headers](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#kernel-headers),<br>
-```$ sudo apt install linux-headers-rpi-{v6,v7,v7l}```<br>
+As it is mentioned that the kernel headers are already included in the source tree, I just copied the entire cloned repo in the `/usr/src/` directory and it worked.
 
 **Note**: This avoids the issue with the header of the build directory `ls -l /usr/lib/modules/build` pointing to the host system (used for cross compilation) instead of pointing to the source directory (linux-header) from `/usr/src/`. Thus kernel can point to the right kernel source version.
+
+For installing only the [linux header](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#kernel-headers) file without any additional file,<br>
+```$ sudo apt install linux-headers-rpi-{v6,v7,v7l}```<be>
 
 Then in your /boot/firmware/config.txt, add<br>
 ```kernel=kernel7l.img```<br>

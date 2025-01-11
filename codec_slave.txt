@@ -1,0 +1,98 @@
+/*
+ * Device Tree Overlay for MAX98090, MAX98091 Audio Codec.
+ * MAX98090 audio codec is used as slave and Raspberry Pi is used as master.
+ */
+
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "brcm,bcm2835","brcm,bcm2711";
+
+    fragment@0 {
+        target = <&i2s_clk_producer>;
+        __overlay__ {
+            status = "okay";
+        };
+    };
+
+    fragment@1 {
+        target = <&i2c1>;
+        __overlay__ {
+            #address-cells = <1>;
+            #size-cells = <0>;
+            status = "okay";
+            max98090_codec: max98090@10 {
+                #sound-dai-cells = <0>;
+                compatible = "maxim,max98090","maxim,max98091";
+                reg = <0x10>;
+                interrupt-parent = <&gpio>;
+                interrupts = <27 2>;	/* GPIO 27 as Edge_Falling_IRQ (2) */
+                maxim,micbias = <3>;    /* MICBIAS = 2.8V */
+                //maxim,dmic-freq = <2500000>;    /* Uncomment for clock frequency of digital mic */
+                status = "okay";
+            };
+        };
+    };
+    
+    fragment@2 {
+        target-path = "/";
+        __overlay__ {
+            clk_oscillator: oscillator {
+                compatible = "fixed-clock";
+                #clock-cells = <0>;
+                clock-frequency = <12288000>;  /* Frequency of the external oscillator (mclk = 12.288 MHz) but can be 11.2896 MHz/12 MHz/13 MHz/26 MHz/19.2 MHz. */
+                clock-output-names = "mclk";
+            };
+        };
+    };
+
+    fragment@3 {
+        target = <&sound>;
+        sound_overlay: __overlay__ {
+            compatible = "simple-audio-card";
+            simple-audio-card,format = "i2s";
+            simple-audio-card,name = "MAX98090-Codec";
+            simple-audio-card,bitclock-master = <&dailink0_master>;
+            simple-audio-card,frame-master = <&dailink0_master>;
+
+            simple-audio-card,widgets =
+                "Microphone", "Mic Jack",
+                "Speaker", "Speaker",
+                "Line", "Line In",
+                "Line", "Line Out",
+                "Headphone", "Headphone Jack";
+
+            simple-audio-card,routing =
+                "Headphone Jack", "HPL",
+                "Headphone Jack", "HPR",
+                "Line Out", "RCVL",
+                "Line Out", "RCVR", 
+                /* Uncomment any of these below lines if the Line Input(s) is(are) used else leave it as such. */
+                //"IN5", "Line In",  /* IN1/IN2/IN3/IN4/IN6 (For single-ended input) */
+                //"IN56", "Line In", /* IN34 (For differential inputs) */
+                "MIC1", "Mic Jack",
+                "MIC2", "Mic Jack",
+                "Mic Jack", "MICBIAS",
+                "Speaker", "SPKL",
+                "Speaker", "SPKR";
+
+            status = "okay";
+
+            dailink0_master: simple-audio-card,cpu {
+                sound-dai = <&i2s_clk_producer>;
+            };
+
+            simple-audio-card,codec {
+                sound-dai = <&max98090_codec>;
+                clocks = <&clk_oscillator>;
+            };
+        };
+    };
+    
+    __overrides__ {
+        card-name = <&sound_overlay>, "simple-audio-card,name";
+    };
+};
+
+

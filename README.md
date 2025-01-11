@@ -1,10 +1,13 @@
-## The device tree overlay for the MAX98090 audio codec.
+## 1. The device tree overlay for the MAX98090 audio codec
 \- Raspberry Pi 4 Model B Rev 1.5, armv7l architecture.
 
 **Note**: 
 * The driver files for this codec are obtained from [this](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/sound/soc/codecs/max98090.c) repository.
 * The device-tree binding is referred from [max98090](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/Documentation/devicetree/bindings/sound/maxim%2Cmax98090.yaml).
 * Before adding the DTS file, make sure that the module for the drivers to your device (audio codec) is available ([steps to check](#Verification-commands)), else first complete [these steps](#Steps-to-re-configure-the-kernel-for-module-generation).
+> For Master/Slave configuration:<br>
+> By default the DTS file is written to configure the codec as master.<br>
+> To configure it to slave, copy-paste [codec_slave](codec_slave.txt) in .dts file and compile.<br>
 
 To edit this DTS file,<br>
  ```$ sudo nano max98090.dts```<br>
@@ -28,7 +31,7 @@ Then reboot your RPi with the following command,<br>
 - https://elinux.org/Device_Tree_Reference
 - https://elinux.org/images/c/cf/Power_ePAPR_APPROVED_v1.1.pdf
 
-## Steps to re-configure the kernel for module generation.
+## 2. Steps to re-configure the kernel for module generation
 For the driver module of the max98090, you should have reconfigured the kernel image. The following steps are mentioned for the [cross-compilation](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#cross-compile-the-kernel),<br>
 ```
 $ git clone https://github.com/raspberrypi/linux
@@ -79,7 +82,7 @@ but if it is the countercase, then add<br>
 ```arm_64bit=1```<br>
 
 
-## Verification commands.
+## 3. Verification commands
 To check if the driver and overlay is loaded.
 ```
 $ sudo vclog -m | grep max98090 (or) sudo vcdbg log msg | grep max98090
@@ -141,7 +144,7 @@ $ cat /proc/asound/modules
 $ cat /proc/asound/cards
 ```
 
-## Configuration and testing.
+## 4. Configuration and testing
 Once the soundcard is created, configure the codec settings as desired using alsamixer settings.<br>
 ```$ alsamixer -c 1``` #card 1 from example<be>
 
@@ -154,5 +157,5 @@ To test playback,<br>
 If your captured file is silent, try recording with this command to determine whether there are any issues with the hardware.<br>
 ```$ arecord -vv -D hw:1,0 -f cd -d 10 test.wav``` #card 1 from example<br>
 
-## System schematics
+## 5. System schematics
 ![schematics](docs/schematics.png)

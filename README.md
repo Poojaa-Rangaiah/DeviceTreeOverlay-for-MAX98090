@@ -40,12 +40,12 @@ $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcm2711_defconfig #(2711 for 
 $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
 ```
 Make the following module configurations in [menuconfig](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#menuconfig),<br>
- |-> Device Drivers<br>
- |---> Sound card support<br>
- |-----> Advanced Linux Sound Architecture<br>
- |-------> ALSA for SoC audio support<br>
- |---------> CODEC drivers<br>
- |-----------> Maxim MAX98090 CODEC
+> |-> Device Drivers<br>
+> |---> Sound card support<br>
+> |-----> Advanced Linux Sound Architecture<br>
+> |-------> ALSA for SoC audio support<br>
+> |---------> CODEC drivers<br>
+> |-----------> Maxim MAX98090 CODEC
 ```
 $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage
 $ make -j$(nproc) ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- dtbs
@@ -86,6 +86,19 @@ $ sudo vclog -m | grep max98090 (or) sudo vcdbg log msg | grep max98090
 $ dmesg | grep -i max98090
 $ lsmod | grep max98090
 ```
+Example:
+> Driver messages for,<br>
+> * Master configuration:<br>
+> [   9.756147] max98090 1-0010: MAX98090 REVID=0x43<br>
+> [ 1593.931771] max98090 1-0010: No better method found<br>
+> [ 1593.931793] max98090 1-0010: Calculating ni 24576 with mi 65536<br>
+> 
+> * Slave configuration:<br>
+> [   10.527034] max98090 1-0010: MAX98090 REVID=0x43<br>
+> [   16.134141] max98090 1-0010: PLL unlocked<br>
+> [   17.185129] max98090 1-0010: PLL unlocked<br>
+> [   17.254656] max98090 1-0010: PLL unlocked<br>
+
 To check the soundcard created for playback and capture.
 ```
 $ aplay -l
@@ -127,7 +140,6 @@ $ sudo cat /sys/kernel/debug/clk/clk_summary
 $ cat /proc/asound/modules
 $ cat /proc/asound/cards
 ```
-
 
 ## Configuration and testing.
 Once the soundcard is created, configure the codec settings as desired using alsamixer settings.<br>

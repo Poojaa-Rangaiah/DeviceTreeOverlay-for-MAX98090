@@ -141,3 +141,6 @@ To test playback,<br>
 
 If your captured file is silent, try recording with this command to determine whether there are any issues with the hardware.<br>
 ```$ arecord -vv -D hw:1,0 -f cd -d 10 test.wav``` #card 1 from example<br>
+
+## System schematics
+![schematics](docs/schematics.png)

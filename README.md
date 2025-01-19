@@ -157,5 +157,9 @@ To test playback,<br>
 If your captured file is silent, try recording with this command to determine whether there are any issues with the hardware.<br>
 ```$ arecord -vv -D hw:1,0 -f cd -d 10 test.wav``` #card 1 from example<br>
 
+To view the waveforms of the audio file.<br>
+```$ ffmpeg -i test.wav -filter_complex "showwavespic=s=1280x720" -frames:v 1 -update 1 test.png```
+
+
 ## 5. System schematics
 ![schematics](docs/schematics.png)

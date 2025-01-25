@@ -1,13 +1,16 @@
-## 1. The device tree overlay for the MAX98090 audio codec
+# The DTS file and schematics for MAX98090 audio codec
 \- Raspberry Pi 4 Model B Rev 1.5, armv7l architecture.
 
 **Note**: 
 * The driver files for this codec are obtained from [this](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/sound/soc/codecs/max98090.c) repository.
 * The device-tree binding is referred from [max98090](https://github.com/raspberrypi/linux/blob/rpi-6.6.y/Documentation/devicetree/bindings/sound/maxim%2Cmax98090.yaml).
 * Before adding the DTS file, make sure that the module for the drivers to your device (audio codec) is available ([steps to check](#3-Verification-commands)), else first complete [these steps](#2-Steps-to-re-configure-the-kernel-for-module-generation).
-> For Master/Slave configuration:<br>
-> By default the DTS file is written to configure the codec as master.<br>
-> To configure it to slave, copy-paste [codec_slave](codec_slave.txt) in .dts file and compile.<br>
+
+## 1. Editing and compiling the device tree overlay
+> Note:
+> For Master/Slave configuration,<br>
+> * By default the DTS file is written to configure the codec as master.<br>
+> * To configure it to slave, copy-paste [codec_slave](codec_slave.txt) in .dts file and compile.<br>
 
 To edit this DTS file,<br>
  ```$ sudo nano max98090.dts```<br>

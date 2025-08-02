@@ -25,7 +25,7 @@ Ensure to add it in config.txt file,<br>
  ```$ sudo nano /boot/firmware/config.txt```<br>
  
 Then add,<br>
- ```dtoverlay = max98090``` before that make sure if ```dtparam=i2s=on``` is uncommented in config.txt, otherwise the external I2S interface in RPi'S GPIO will be disabled.<br>
+ ```dtoverlay = max98090``` before that make sure if ```dtparam=i2s=on``` and ```dtparam=i2c_arm=on``` is uncommented in config.txt, otherwise the external I2S interface in RPi'S GPIO will be disabled.<br>
  
 Then reboot your RPi with the following command,<br>
  ```$ sudo reboot```
@@ -66,27 +66,32 @@ $ cp arch/arm/boot/zImage /boot/kernel7l.img
 $ sudo cp arch/arm/boot/dts/broadcom/*.dtb mnt/boot/
 $ sudo cp arch/arm/boot/dts/overlays/*.dtb* mnt/boot/overlays/
 $ sudo cp arch/arm/boot/dts/overlays/README mnt/boot/overlays/
+$ make ARCH=arm INSTALL_HDR_PATH=mnt/root/usr/src/<linux-header-version> headers_install #[run on host sys, <linux-header-version> have the version of generated modules directory]
 $ sudo umount mnt/boot
 $ sudo umount mnt/root
 ```
+For additional info: [linux header](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#kernel-headers).<br>
+
 In **RPi**,<br>
-As it is mentioned that the kernel headers are already included in the source tree, I just copied the entire cloned repo in the `/usr/src/` directory and it worked.
-
-**Note**: This avoids the issue with the header of the build directory `ls -l /usr/lib/modules/build` pointing to the host system (used for cross compilation) instead of pointing to the source directory (linux-header) from `/usr/src/`. Thus kernel can point to the right kernel source version.
-
-For installing only the [linux header](https://www.raspberrypi.com/documentation/computers/linux_kernel.html#kernel-headers) file without any additional file,<br>
-```$ sudo apt install linux-headers-rpi-{v6,v7,v7l}```<be>
+check,<br>
+```
+$ ls -l /usr/lib/modules/<module-version>/build
+```
+If the build directory points to your cross-compiled host's path,<br>
+Run the below command to make it point to the current version of linux-header,<br>
+```
+$ sudo ln -sf /usr/src/<linux-headers-version> /lib/modules/<module-version>/build
+```
 
 Then in your /boot/firmware/config.txt, add<br>
 ```kernel=kernel7l.img```<br>
 Also, if the architecture of your OS is armv7l but it shows aarch64 when `uname -a`, then add this in config.txt<br>
 ```arm_64bit=0```<br>
-but if it is the countercase, then add<br>
+But if it is the countercase, then add<br>
 ```arm_64bit=1```<br>
 
-
 ## 3. Verification commands
-To check if the driver and overlay is loaded.
+To check if the driver and overlay are loaded.
 ```
 $ sudo vclog -m | grep max98090 (or) sudo vcdbg log msg | grep max98090
 $ dmesg | grep -i max98090

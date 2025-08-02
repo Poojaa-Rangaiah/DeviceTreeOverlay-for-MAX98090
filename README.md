@@ -25,7 +25,7 @@ Ensure to add it in config.txt file,<br>
  ```$ sudo nano /boot/firmware/config.txt```<br>
  
 Then add,<br>
- ```dtoverlay = max98090``` before that make sure if ```dtparam=i2s=on``` and ```dtparam=i2c_arm=on``` is uncommented in config.txt, otherwise the external I2S interface in RPi'S GPIO will be disabled.<br>
+ ```dtoverlay=max98090``` before that make sure if ```dtparam=i2s=on``` and ```dtparam=i2c_arm=on``` is uncommented in config.txt, otherwise the external I2S interface in RPi'S GPIO will be disabled.<br>
  
 Then reboot your RPi with the following command,<br>
  ```$ sudo reboot```
@@ -84,11 +84,17 @@ $ sudo ln -sf /usr/src/<linux-headers-version> /lib/modules/<module-version>/bui
 ```
 
 Then in your /boot/firmware/config.txt, add<br>
-```kernel=kernel7l.img```<br>
+```
+kernel=kernel7l.img
+```
 Also, if the architecture of your OS is armv7l but it shows aarch64 when `uname -a`, then add this in config.txt<br>
-```arm_64bit=0```<br>
+```
+arm_64bit=0
+```
 But if it is the countercase, then add<br>
-```arm_64bit=1```<br>
+```
+arm_64bit=1
+```
 
 ## 3. Verification commands
 To check if the driver and overlay are loaded.
